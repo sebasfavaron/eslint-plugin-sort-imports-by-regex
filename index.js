@@ -9,6 +9,7 @@ module.exports = {
         fixable: 'code',
       },
       create(context) {
+        // Regexes do not need to be perfect, they just needs to match what the previous did not
         let regexPatterns = [
           /from.*react/, // Step 1
           /from.*react.*/, // Step 2
