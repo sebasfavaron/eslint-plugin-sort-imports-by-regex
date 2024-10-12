@@ -38,7 +38,6 @@ module.exports = {
 
               for (let index = 0; index < regexPatterns.length; index++) {
                 const regex = regexPatterns[index];
-                console.log('regex', regex, importText, regex.test(importText));
                 if (regex.test(importText)) {
                   groupedImports[index].push(imp);
                   matched = true;
