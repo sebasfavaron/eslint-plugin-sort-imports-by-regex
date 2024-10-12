@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-import-order",
+  "name": "eslint-plugin-sort-imports-by-regex",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
