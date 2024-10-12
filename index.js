@@ -1,36 +1,24 @@
 module.exports = {
   rules: {
-    'order-imports-by-regex': {
+    regexPatterns: {
       meta: {
-        type: 'problem', // Keep it as 'problem' to enforce a rule
+        type: 'problem',
         docs: {
           description: 'Enforce imports to be ordered based on regex patterns',
         },
         fixable: 'code',
       },
       create(context) {
-        // Regexes do not need to be perfect, they just needs to match what the previous did not
-        let regexPatterns = [
-          /from.*react/, // Step 1
-          /from.*react.*/, // Step 2
-          /use.*from\s*['"][^/.]+['"]/, // Step 3 (library hooks)
-          /use.*from/, // Step 4 (custom hooks)
-          /from.*(?:\/hooks\/|use).*/, // Step 4 (custom hooks) - alternative
-          /from.*@mui.*/, // Step 5 (mui)
-          /from.*material-hu/, // Step 6 (material-hu)
-          /from.*material-hu\/.*/, // Step 5-6 (material-hu + icons)
-          /from.*@fortawesome\/react-fontawesome/, // Step 6 (fontawesome icons)
-          /from\s*['"][^/.]+['"]/, // Step 7 (library components)
-          /from.*\/components.*/, // Step 8 (components) (does not see components in same folder)
-          /from.*\/services.*/, // Step 9 (services)
-          /from.*\/utils.*/, // Step 10 (utils)
-          /from.*\/types.*/, // Step 11 (types)
-          /from.*\/queries.*/, // Step 12 (queries)
-          /from.*\/routes.*/, // Step 13 (routes)
-          /from.*\/i18n.*/, // Step 14 (i18n)
-          /from.*\/constants.*/,
-          /from.*\/config.*/,
-        ];
+        if (!context.options[0]?.regexPatterns) {
+          throw new Error(
+            'You must provide an options object with a regexPatterns array'
+          );
+        }
+
+        // Regexes do not need to be perfect, they just need to match what the previous regexes did not. Think of them as "this, and not the previous ones"
+        const regexPatterns = context.options[0].regexPatterns.map(
+          (pattern) => new RegExp(pattern)
+        );
 
         return {
           Program(node) {
@@ -76,8 +64,7 @@ module.exports = {
             if (JSON.stringify(originalOrder) !== JSON.stringify(newOrder)) {
               context.report({
                 node: imports[0], // Report on the first import node
-                message:
-                  'Imports are not ordered according to Style Guide (https://www.notion.so/humand-co/Style-Guide-e54f5b033dfe4dbeb7a319f9c357d825)!',
+                message: 'Imports are not ordered according to the Style Guide',
                 fix(fixer) {
                   const sortedText = newOrder.join('\n') + '\n'; // Join sorted imports with newline
 
