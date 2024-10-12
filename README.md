@@ -2,7 +2,7 @@
 
 Easy way to sort imports on js, ts, and tsx files by regex matching the whole import line.
 
-### Why does this exist?
+### Why does it exist?
 
 This eslint plugin was created after researching and finding that import ordering plugins only check the import path and not the whole line, which is needed if you need to differentiate _what_ is imported from a file/library.
 
@@ -13,9 +13,21 @@ Plugins considered before this:
 - eslint-plugin-import's [order](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md)
 - perfectionist's [sort-imports](https://perfectionist.dev/rules/sort-imports)
 
-### Usage
+### How do I use it?
 
-In the eslintrc file, a rule that defines the regexPatterns should be added like so:
+1. Install
+
+```
+npm i eslint-plugin-sort-imports-by-regex
+```
+
+OR
+
+```
+yarn add eslint-plugin-sort-imports-by-regex
+```
+
+2. In the eslintrc file, a rule that defines the regexPatterns should be added like so:
 
 ```json
 {
